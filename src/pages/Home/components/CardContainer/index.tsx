@@ -1,6 +1,8 @@
-import { Minus, Plus, ShoppingCart } from "@phosphor-icons/react";
+import { ShoppingCart } from "@phosphor-icons/react";
 import { Coffee } from "./ImageCoffee";
-import { CardCoffee, Prices, Quantity, SpanContext } from "./style";
+import { CardCoffee, Prices, SpanContext } from "./style";
+import { ButtonContainer } from "../../../../components/Variants/ButtonVariants";
+import { Quantity } from "../../../../components/Quantity";
 
 export function CardContainer() {
   return (
@@ -21,19 +23,11 @@ export function CardContainer() {
             <small>R$</small> 6,00
           </span>
 
-          <Quantity>
-            <button type="button">
-              <Minus weight="bold" size={14} />
-            </button>
-            <input type="number" id="number" />
-            <button type="button">
-              <Plus weight="bold" size={14} />
-            </button>
-          </Quantity>
+        <Quantity />
 
-          <button type="submit">
+          <ButtonContainer type="submit" variant="icon">
             <ShoppingCart size={22} weight="fill" />
-          </button>
+          </ButtonContainer>
         </Prices>
       </CardCoffee>
 
@@ -53,19 +47,11 @@ export function CardContainer() {
             <small>R$</small> 7,00
           </span>
 
-          <Quantity>
-            <button type="button">
-              <Minus weight="bold" size={14} />
-            </button>
-            <input type="number" id="number" />
-            <button type="button">
-              <Plus weight="bold" size={14} />
-            </button>
-          </Quantity>
+          <Quantity />
 
-          <button type="submit">
+          <ButtonContainer type="submit" variant="icon">
             <ShoppingCart size={22} weight="fill" />
-          </button>
+          </ButtonContainer>
         </Prices>
       </CardCoffee>
 
@@ -83,19 +69,11 @@ export function CardContainer() {
             <small>R$</small> 7,50
           </span>
 
-          <Quantity>
-            <button type="button">
-              <Minus weight="bold" size={14} />
-            </button>
-            <input type="number" id="number" />
-            <button type="button">
-              <Plus weight="bold" size={14} />
-            </button>
-          </Quantity>
+          <Quantity />
 
-          <button type="submit">
+          <ButtonContainer type="submit" variant="icon">
             <ShoppingCart size={22} weight="fill" />
-          </button>
+          </ButtonContainer>
         </Prices>
       </CardCoffee>
 
@@ -116,19 +94,11 @@ export function CardContainer() {
             7,90
           </span>
 
-          <Quantity>
-            <button type="button">
-              <Minus weight="bold" size={14} />
-            </button>
-            <input type="number" id="number" />
-            <button type="button">
-              <Plus weight="bold" size={14} />
-            </button>
-          </Quantity>
+          <Quantity />
 
-          <button type="submit">
+          <ButtonContainer type="submit" variant="icon">
             <ShoppingCart size={22} weight="fill" />
-          </button>
+          </ButtonContainer>
         </Prices>
       </CardCoffee>
 
@@ -149,19 +119,11 @@ export function CardContainer() {
             8,90
           </span>
 
-          <Quantity>
-            <button type="button">
-              <Minus weight="bold" size={14} />
-            </button>
-            <input type="number" id="number" />
-            <button type="button">
-              <Plus weight="bold" size={14} />
-            </button>
-          </Quantity>
+          <Quantity />
 
-          <button type="submit">
+          <ButtonContainer type="submit" variant="icon">
             <ShoppingCart size={22} weight="fill" />
-          </button>
+          </ButtonContainer>
         </Prices>
       </CardCoffee>
 
@@ -182,19 +144,11 @@ export function CardContainer() {
             9,90
           </span>
 
-          <Quantity>
-            <button type="button">
-              <Minus weight="bold" size={14} />
-            </button>
-            <input type="number" id="number" />
-            <button type="button">
-              <Plus weight="bold" size={14} />
-            </button>
-          </Quantity>
+          <Quantity />
 
-          <button type="submit">
+          <ButtonContainer type="submit" variant="icon">
             <ShoppingCart size={22} weight="fill" />
-          </button>
+          </ButtonContainer>
         </Prices>
       </CardCoffee>
 
@@ -215,19 +169,11 @@ export function CardContainer() {
             9,90
           </span>
 
-          <Quantity>
-            <button type="button">
-              <Minus weight="bold" size={14} />
-            </button>
-            <input type="number" id="number" />
-            <button type="button">
-              <Plus weight="bold" size={14} />
-            </button>
-          </Quantity>
+          <Quantity />
 
-          <button type="submit">
+          <ButtonContainer type="submit" variant="icon">
             <ShoppingCart size={22} weight="fill" />
-          </button>
+          </ButtonContainer>
         </Prices>
       </CardCoffee>
 
@@ -248,19 +194,11 @@ export function CardContainer() {
             9,90
           </span>
 
-          <Quantity>
-            <button type="button">
-              <Minus weight="bold" size={14} />
-            </button>
-            <input type="number" id="number" />
-            <button type="button">
-              <Plus weight="bold" size={14} />
-            </button>
-          </Quantity>
+          <Quantity />
 
-          <button type="submit">
+          <ButtonContainer type="submit" variant="icon">
             <ShoppingCart size={22} weight="fill" />
-          </button>
+          </ButtonContainer>
         </Prices>
       </CardCoffee>
 
@@ -281,19 +219,11 @@ export function CardContainer() {
             9,90
           </span>
 
-          <Quantity>
-            <button type="button">
-              <Minus weight="bold" size={14} />
-            </button>
-            <input type="number" id="number" />
-            <button type="button">
-              <Plus weight="bold" size={14} />
-            </button>
-          </Quantity>
+          <Quantity />
 
-          <button type="submit">
+          <ButtonContainer type="submit" variant="icon">
             <ShoppingCart size={22} weight="fill" />
-          </button>
+          </ButtonContainer>
         </Prices>
       </CardCoffee>
 
@@ -314,19 +244,11 @@ export function CardContainer() {
             10,90
             </span>
 
-          <Quantity>
-            <button type="button">
-              <Minus weight="bold" size={14} />
-            </button>
-            <input type="number" id="number" />
-            <button type="button">
-              <Plus weight="bold" size={14} />
-            </button>
-          </Quantity>
+            <Quantity />
 
-          <button type="submit">
+          <ButtonContainer type="submit" variant="icon">
             <ShoppingCart size={22} weight="fill" />
-          </button>
+          </ButtonContainer>
         </Prices>
       </CardCoffee>
 
@@ -348,19 +270,11 @@ export function CardContainer() {
             99,99
             </span>
 
-          <Quantity>
-            <button type="button">
-              <Minus weight="bold" size={14} />
-            </button>
-            <input type="number" id="number" />
-            <button type="button">
-              <Plus weight="bold" size={14} />
-            </button>
-          </Quantity>
+            <Quantity />
 
-          <button type="submit">
+          <ButtonContainer type="submit" variant="icon">
             <ShoppingCart size={22} weight="fill" />
-          </button>
+          </ButtonContainer>
         </Prices>
       </CardCoffee>
 
@@ -378,19 +292,11 @@ export function CardContainer() {
             16,90
           </span>
 
-          <Quantity>
-            <button type="button">
-              <Minus weight="bold" size={14} />
-            </button>
-            <input type="number" id="number" />
-            <button type="button">
-              <Plus weight="bold" size={14} />
-            </button>
-          </Quantity>
+          <Quantity />
 
-          <button type="submit">
+          <ButtonContainer type="submit" variant="icon">
             <ShoppingCart size={22} weight="fill" />
-          </button>
+          </ButtonContainer>
         </Prices>
       </CardCoffee>
 
@@ -408,19 +314,11 @@ export function CardContainer() {
             20,90
           </span>
 
-          <Quantity>
-            <button type="button">
-              <Minus weight="bold" size={14} />
-            </button>
-            <input type="number" id="number" />
-            <button type="button">
-              <Plus weight="bold" size={14} />
-            </button>
-          </Quantity>
+          <Quantity />
 
-          <button type="submit">
+          <ButtonContainer type="submit" variant="icon">
             <ShoppingCart size={22} weight="fill" />
-          </button>
+          </ButtonContainer>
         </Prices>
       </CardCoffee>
 
@@ -441,19 +339,11 @@ export function CardContainer() {
              21,90
              </span>
 
-          <Quantity>
-            <button type="button">
-              <Minus weight="bold" size={14} />
-            </button>
-            <input type="number" id="number" />
-            <button type="button">
-              <Plus weight="bold" size={14} />
-            </button>
-          </Quantity>
+             <Quantity />
 
-          <button type="submit">
+          <ButtonContainer type="submit" variant="icon">
             <ShoppingCart size={22} weight="fill" />
-          </button>
+          </ButtonContainer>
         </Prices>
       </CardCoffee>
     </>

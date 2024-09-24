@@ -1,3 +1,12 @@
+import { DeliveryPaymentMethod } from "./components/DeliveryPaymentMethod";
+import { Selecteds } from "./components/Selecteds";
+import { CartContainer } from "./styles";
+
 export function Cart() {
-  return <h1>Carrinho</h1>
+  return (
+    <CartContainer>
+    <Selecteds />
+    <DeliveryPaymentMethod />
+    </CartContainer>
+  )
 }

@@ -13,10 +13,13 @@ export const HomeHeaderContainer = styled.header`
 
 export const HomeContainer = styled.main`
   padding-top: 2rem;
+
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 2.5rem 2rem;
+  gap: 2.5rem 2.5rem;
+
+  margin-bottom: 1rem;
 `
 
 export const H1Container = styled.h1`
