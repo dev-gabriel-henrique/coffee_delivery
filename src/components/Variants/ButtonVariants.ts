@@ -44,7 +44,7 @@ export const ButtonVariantStyle = (theme: DefaultTheme, variant = "primary") =>
         fill: ${theme["purple"]};
       }
 
-      &:hover {
+      &:not(:disabled):hover {
         background: ${theme["base-hover"]};
         color: ${theme["base-subtitle"]};
       }
@@ -64,11 +64,11 @@ export const ButtonVariantStyle = (theme: DefaultTheme, variant = "primary") =>
 
       transition: all 0.3s ease;
 
-      &:hover {
+      &:not(:disabled):hover {
         background-color: ${theme['purple']};
       }
 
-      &:active {
+      &:not(:disabled):active {
         transform: scale(0.9);
       }
     `,
@@ -137,6 +137,11 @@ export const ButtonContainer = styled.button<{ variant: string }>`
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
+
+  &:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+  }
 
   ${({ theme, variant }) => ButtonVariantStyle(theme, variant)}
 `;

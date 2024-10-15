@@ -40,6 +40,14 @@ export const CoffeeSelected = styled.div`
 
   }
 
+  & h1 {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 2rem;
+    line-height: 1.3;
+    font-weight: bold;
+    color: ${props => props.theme['base-text']};
+  }
+
   & p {
     font-family: 'Baloo 2', sans-serif;
     font-size: 1rem;

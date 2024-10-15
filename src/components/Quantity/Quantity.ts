@@ -40,5 +40,9 @@ export const QuantityContainer = styled.div`
       & svg {
         fill: ${props => props.theme['purple']};
       }
+
+      &:disabled {
+        cursor: not-allowed;
+      }
     }
 `

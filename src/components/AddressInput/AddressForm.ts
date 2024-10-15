@@ -30,3 +30,11 @@ export const NumberInput = styled(BaseAddress)`
 export const TextInput = styled(BaseAddress)`
   width: 100%;
 `
+export const InputContainer = styled.div`
+  display: grid;
+  gap: .5rem;
+  & div {
+    display: grid;
+    gap: .5rem
+  }
+`

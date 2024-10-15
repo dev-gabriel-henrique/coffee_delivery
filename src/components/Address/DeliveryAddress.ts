@@ -1,7 +1,5 @@
 import styled from "styled-components";
 
-
-
 export const AddressContainer = styled.dialog`
   position: absolute;
 

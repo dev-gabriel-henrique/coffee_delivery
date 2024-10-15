@@ -1,351 +1,163 @@
-import { ShoppingCart } from "@phosphor-icons/react";
+import { FormProvider } from "react-hook-form";
+import { Prices } from "../Prices";
 import { Coffee } from "./ImageCoffee";
-import { CardCoffee, Prices, SpanContext } from "./style";
-import { ButtonContainer } from "../../../../components/Variants/ButtonVariants";
-import { Quantity } from "../../../../components/Quantity";
+import { CardCoffee, SpanContext } from "./style";
+
+interface ICoffeeList {
+  id: number;
+  nome: string;
+  valor: number;
+  imgSrc: string;
+  alt: string;
+  categorias: string[];
+  descricao: string;
+}
+
+export const coffeeList: ICoffeeList[] = [
+  {
+    id: 1,
+    nome: "Expresso Tradicional",
+    categorias: ["Tradicional"],
+    imgSrc: Coffee.tradicionalCoffee,
+    descricao: "O tradicional café feito com água quente e grãos moídos",
+    alt: "Imagem de um café tradicional",
+    valor: 6,
+  },
+  {
+    id: 2,
+    nome: "Expresso Americano",
+    categorias: ["Tradicional"],
+    imgSrc: Coffee.americanCoffee,
+    descricao: "Expresso diluído, menos intenso que o tradicional",
+    alt: "Imagem de um café expresso americano",
+    valor: 8,
+  },
+  {
+    id: 3,
+    nome: "Expresso Cremoso",
+    categorias: ["Tradicional"],
+    imgSrc: Coffee.creamyCoffee,
+    descricao: "Café expresso tradicional com espuma cremosa",
+    alt: "Imagem de um café cremoso",
+    valor: 9,
+  },
+  {
+    id: 4,
+    nome: "Expresso Gelado",
+    categorias: ["Tradicional", "Gelado"],
+    imgSrc: Coffee.icedCoffee,
+    descricao: "Bebida preparada com café expresso e cubos de gelo",
+    alt: "Imagem de um café gelado",
+    valor: 7,
+  },
+  {
+    id: 5,
+    nome: "Café com Leite",
+    categorias: ["Tradicional", "Com leite"],
+    imgSrc: Coffee.coffeeWithMilk,
+    descricao: "Meio a meio de expresso tradicional com leite vaporizado",
+    alt: "Imagem de um café com leite",
+    valor: 10,
+  },
+  {
+    id: 6,
+    nome: "Latte",
+    categorias: ["Tradicional", "Com leite"],
+    imgSrc: Coffee.latte,
+    descricao: "Uma dose de café expresso com o dobro de leite e espuma cremosa",
+    alt: "Imagem de um Latte",
+    valor: 11,
+  },
+  {
+    id: 7,
+    nome: "Capuccino",
+    categorias: ["Tradicional", "Com leite"],
+    imgSrc: Coffee.capuccino,
+    descricao: "Bebida com canela feita de doses iguais de café, leite e espuma",
+    alt: "Imagem de um Capuccino",
+    valor: 12,
+  },
+  {
+    id: 8,
+    nome: "Macchiato",
+    categorias: ["Tradicional", "Com leite"],
+    imgSrc: Coffee.macchiato,
+    descricao: "O tradicional café feito com água quente e grãos moídos",
+    alt: "Imagem de um Macchiato",
+    valor: 14,
+  },
+  {
+    id: 9,
+    nome: "Mocaccino",
+    categorias: ["Tradicional", "Com leite"],
+    imgSrc: Coffee.mocaccino,
+    descricao: "Café expresso com calda de chocolate, pouco leite e espuma",
+    alt: "Imagem de um Mocaccino",
+    valor: 13,
+  },
+  {
+    id: 10,
+    nome: "Chocolate Quente",
+    categorias: ["Especial", "Com leite"],
+    imgSrc: Coffee.hotCocoa,
+    descricao: "Bebida feita com chocolate dissolvido no leite quente e café",
+    alt: "Imagem de um chocolate quente",
+    valor: 10,
+  },
+  {
+    id: 11,
+    nome: "Cubano",
+    categorias: ["Especial", "Alcoólico", "Gelado"],
+    imgSrc: Coffee.cubano,
+    descricao: "Drink gelado de café expresso com rum, creme de leite e hortelã",
+    alt: "Imagem de um Cubano",
+    valor: 18,
+  },
+  {
+    id: 12,
+    nome: "Havaiano",
+    categorias: ["Especial"],
+    imgSrc: Coffee.havaiano,
+    descricao: "Bebida adocicada preparada com café e leite de coco",
+    alt: "Imagem de um Havaiano",
+    valor: 18,
+  },
+  {
+    id: 13,
+    nome: "Árabe",
+    categorias: ["Especial"],
+    imgSrc: Coffee.arabianCoffee,
+    descricao: "Bebida preparada com grãos de café árabe e especiarias",
+    alt: "Imagem de um café árabe",
+    valor: 25,
+  },
+  {
+    id: 14,
+    nome: "Irlandês",
+    categorias: ["Especial", "Alcoólico"],
+    imgSrc: Coffee.irlandes,
+    descricao: "Bebida a base de café, uísque irlandês, açúcar e chantilly",
+    alt: "Imagem de um café irlandês",
+    valor: 30,
+  },
+]
 
 export function CardContainer() {
   return (
     <>
-      <CardCoffee>
-        <img
-          src={Coffee.tradicionalCoffee}
-          alt="Imagem de um café tradicional"
-        />
-
-        <span>Tradicional</span>
-
-        <h2>Expresso Tradicional</h2>
-        <p>O tradicional café feito com água quente e grãos moídos</p>
-
-        <Prices>
-          <span>
-            <small>R$</small> 6,00
-          </span>
-
-        <Quantity />
-
-          <ButtonContainer type="submit" variant="icon">
-            <ShoppingCart size={22} weight="fill" />
-          </ButtonContainer>
-        </Prices>
-      </CardCoffee>
-
-      <CardCoffee>
-        <img
-          src={Coffee.americanCoffee}
-          alt="Imagem de um café expresso americano"
-        />
-
-        <span>Tradicional</span>
-
-        <h2>Expresso Americano</h2>
-        <p>Expresso diluído, menos intenso que o tradicional</p>
-
-        <Prices>
-          <span>
-            <small>R$</small> 7,00
-          </span>
-
-          <Quantity />
-
-          <ButtonContainer type="submit" variant="icon">
-            <ShoppingCart size={22} weight="fill" />
-          </ButtonContainer>
-        </Prices>
-      </CardCoffee>
-
-      <CardCoffee>
-        <img src={Coffee.creamyCoffee} alt="Imagem de um café cremoso" />
-
-        <span>Tradicional</span>
-
-        <h2>Expresso Cremoso</h2>
-
-        <p>Café expresso tradicional com espuma cremosa</p>
-
-        <Prices>
-          <span>
-            <small>R$</small> 7,50
-          </span>
-
-          <Quantity />
-
-          <ButtonContainer type="submit" variant="icon">
-            <ShoppingCart size={22} weight="fill" />
-          </ButtonContainer>
-        </Prices>
-      </CardCoffee>
-
-      <CardCoffee>
-        <img src={Coffee.icedCoffee} alt="Imagem de um café tradicional" />
-
-        <SpanContext>
-          <span>Tradicional</span>
-          <span>Gelado</span>
-        </SpanContext>
-
-        <h2>Expresso Gelado</h2>
-        <p>Bebida preparada com café expresso e cubos de gelo</p>
-
-        <Prices>
-          <span>
-            <small>R$ </small>
-            7,90
-          </span>
-
-          <Quantity />
-
-          <ButtonContainer type="submit" variant="icon">
-            <ShoppingCart size={22} weight="fill" />
-          </ButtonContainer>
-        </Prices>
-      </CardCoffee>
-
-      <CardCoffee>
-        <img src={Coffee.coffeeWithMilk} alt="Imagem de um café tradicional" />
-
-        <SpanContext>
-          <span>Tradicional</span>
-          <span>Com leite</span>
-        </SpanContext>
-
-        <h2>Café com Leite</h2>
-        <p>Meio a meio de expresso tradicional com leite vaporizado</p>
-
-        <Prices>
-          <span>
-            <small>R$ </small>
-            8,90
-          </span>
-
-          <Quantity />
-
-          <ButtonContainer type="submit" variant="icon">
-            <ShoppingCart size={22} weight="fill" />
-          </ButtonContainer>
-        </Prices>
-      </CardCoffee>
-
-      <CardCoffee>
-        <img src={Coffee.latte} alt="Imagem de um café tradicional" />
-
-        <SpanContext>
-          <span>Tradicional</span>
-          <span>Com leite</span>
-        </SpanContext>
-
-        <h2>Latte</h2>
-        <p>Uma dose de café expresso com o dobro de leite e espuma cremosa</p>
-
-        <Prices>
-          <span>
-            <small>R$ </small>
-            9,90
-          </span>
-
-          <Quantity />
-
-          <ButtonContainer type="submit" variant="icon">
-            <ShoppingCart size={22} weight="fill" />
-          </ButtonContainer>
-        </Prices>
-      </CardCoffee>
-
-      <CardCoffee>
-        <img src={Coffee.capuccino} alt="Imagem de um capuccino" />
-
-        <SpanContext>
-          <span>Tradicional</span>
-          <span>Com leite</span>
-        </SpanContext>
-
-        <h2>Capuccino</h2>
-        <p>Bebida com canela feita de doses iguais de café, leite e espuma</p>
-
-        <Prices>
-          <span>
-            <small>R$ </small>
-            9,90
-          </span>
-
-          <Quantity />
-
-          <ButtonContainer type="submit" variant="icon">
-            <ShoppingCart size={22} weight="fill" />
-          </ButtonContainer>
-        </Prices>
-      </CardCoffee>
-
-      <CardCoffee>
-        <img src={Coffee.macchiato} alt="Imagem de um Macchiato" />
-
-        <SpanContext>
-          <span>Tradicional</span>
-          <span>Com leite</span>
-        </SpanContext>
-
-        <h2>Macchiato</h2>
-        <p>O tradicional café feito com água quente e grãos moídos</p>
-
-        <Prices>
-          <span>
-            <small>R$ </small>
-            9,90
-          </span>
-
-          <Quantity />
-
-          <ButtonContainer type="submit" variant="icon">
-            <ShoppingCart size={22} weight="fill" />
-          </ButtonContainer>
-        </Prices>
-      </CardCoffee>
-
-      <CardCoffee>
-        <img src={Coffee.mocaccino} alt="Imagem de um café tradicional" />
-
-        <SpanContext>
-          <span>Tradicional</span>
-          <span>Com leite</span>
-        </SpanContext>
-
-        <h2>Mocaccino</h2>
-        <p>Café expresso com calda de chocolate, pouco leite e espuma</p>
-
-        <Prices>
-          <span>
-            <small>R$ </small>
-            9,90
-          </span>
-
-          <Quantity />
-
-          <ButtonContainer type="submit" variant="icon">
-            <ShoppingCart size={22} weight="fill" />
-          </ButtonContainer>
-        </Prices>
-      </CardCoffee>
-
-      <CardCoffee>
-        <img src={Coffee.hotCocoa} alt="Imagem de um chocolate quente" />
-
-        <SpanContext>
-          <span>Especial</span>
-          <span>Com leite</span>
-        </SpanContext>
-
-        <h2>Chocolate Quente</h2>
-        <p>Bebida feita com chocolate dissolvido no leite quente e café</p>
-
-        <Prices>
-          <span>
-            <small>R$ </small> 
-            10,90
-            </span>
-
-            <Quantity />
-
-          <ButtonContainer type="submit" variant="icon">
-            <ShoppingCart size={22} weight="fill" />
-          </ButtonContainer>
-        </Prices>
-      </CardCoffee>
-
-      <CardCoffee>
-        <img src={Coffee.cubano} alt="Imagem de um café tradicional" />
-
-        <SpanContext>
-          <span>Especial</span>
-          <span>Alcoólico</span>
-          <span>Gelado</span>
-        </SpanContext>
-
-        <h2>Cubano</h2>
-        <p>Drink gelado de café expresso com rum, creme de leite e hortelã</p>
-
-        <Prices>
-          <span>
-            <small>R$ </small> 
-            99,99
-            </span>
-
-            <Quantity />
-
-          <ButtonContainer type="submit" variant="icon">
-            <ShoppingCart size={22} weight="fill" />
-          </ButtonContainer>
-        </Prices>
-      </CardCoffee>
-
-      <CardCoffee>
-        <img src={Coffee.havaiano} alt="Imagem de um café tradicional" />
-
-        <span>Especial</span>
-
-        <h2>Havaiano</h2>
-        <p>Bebida adocicada preparada com café e leite de coco</p>
-
-        <Prices>
-          <span>
-            <small>R$ </small>
-            16,90
-          </span>
-
-          <Quantity />
-
-          <ButtonContainer type="submit" variant="icon">
-            <ShoppingCart size={22} weight="fill" />
-          </ButtonContainer>
-        </Prices>
-      </CardCoffee>
-
-      <CardCoffee>
-        <img src={Coffee.arabianCoffee} alt="Imagem de um café tradicional" />
-
-        <span>Especial</span>
-
-        <h2>Árabe</h2>
-        <p>Bebida preparada com grãos de café árabe e especiarias</p>
-
-        <Prices>
-          <span>
-            <small>R$ </small>
-            20,90
-          </span>
-
-          <Quantity />
-
-          <ButtonContainer type="submit" variant="icon">
-            <ShoppingCart size={22} weight="fill" />
-          </ButtonContainer>
-        </Prices>
-      </CardCoffee>
-
-      <CardCoffee>
-        <img src={Coffee.irlandes} alt="Imagem de um café tradicional" />
-
-        <SpanContext>
-          <span>Especial</span>
-          <span>Alcoólico</span>
-        </SpanContext>
-
-        <h2>Irlândes</h2>
-        <p>Bebida a base de café, uísque irlandês, açúcar e chantilly</p>
-
-        <Prices>
-          <span>
-            <small>R$ </small>
-             21,90
-             </span>
-
-             <Quantity />
-
-          <ButtonContainer type="submit" variant="icon">
-            <ShoppingCart size={22} weight="fill" />
-          </ButtonContainer>
-        </Prices>
-      </CardCoffee>
+      {coffeeList.map((coffee) => (
+        <CardCoffee key={coffee.id}>
+          <img src={coffee.imgSrc} alt={coffee.alt} />
+          <SpanContext>
+            {coffee.categorias.map((categoria, index) => (
+              <span key={index}>{categoria}</span>
+            ))}
+          </SpanContext>
+          <h2>{coffee.nome}</h2>
+          <p>{coffee.descricao}</p>
+          <Prices coffeePrice={coffee.valor} />
+        </CardCoffee>
+      ))}
     </>
   );
 }
