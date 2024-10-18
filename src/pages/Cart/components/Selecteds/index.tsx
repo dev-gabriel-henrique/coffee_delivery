@@ -10,27 +10,47 @@ import {
   TotalValue,
   ValueOfTotalItems,
 } from "./Selecteds";
-import { useContext } from "react";
-import { CoffeeContext } from "../../../../contexts/coffes/coffeContext";
+import { useContext, useState } from "react";
+import { CombinedContext } from "../../../../contexts/CombinedContext";
+import { FormProvider, useForm } from "react-hook-form";
 
 export function Selecteds() {
-  const { selectedCoffee } = useContext(CoffeeContext)
+  const { cart, removeCoffeeFromCart } = useContext(CombinedContext)
   
+  const [deliveryTax] = useState<number>(3.5)
+
+  const multiplyCoffes = (a: number, b: number) => {
+    if (a > 1) {
+      return b * a
+    }
+    return b
+  }
+
+  const totalItemsValue = cart.reduce((total, coffee) => {
+    return total + multiplyCoffes(coffee.quantidade, Number(coffee.valor));
+  }, 0);
+
+  const totalValue = totalItemsValue + deliveryTax;
+    
   return (
     <div>
       <H1Selected>Cafés Selecionados</H1Selected>
       <SelectedsContainer>
         <div>
-          { selectedCoffee ? (
-            <CoffeeSelected key={selectedCoffee!.id}>
+          {cart.length ? (
+            cart.map((selectedCoffee) => (
+              <CoffeeSelected key={selectedCoffee!.id}>
+                <img src={selectedCoffee.imgSrc} alt="" />
               <div>
                 <p>{selectedCoffee!.coffee}</p>
 
                 <div>
-                  <Quantity
-                  coffeeQuantity={selectedCoffee!.quantidade} 
-                  />
-                <ButtonContainer variant="secondary">
+                  <FormProvider {...useForm({defaultValues: { quantity: selectedCoffee!.quantidade } })}>
+                  <Quantity />
+                  </FormProvider>
+                <ButtonContainer 
+                onClick={() => removeCoffeeFromCart}
+                variant="secondary">
                   <Trash size={16} />
                   Remover
                 </ButtonContainer>
@@ -39,10 +59,10 @@ export function Selecteds() {
 
               <p>
                 <span>R$</span>
-                {selectedCoffee!.valor}
+                {selectedCoffee!.valor},00
               </p>
-            </CoffeeSelected> ) : 
-            (
+            </CoffeeSelected> )
+            )) : (
               <CoffeeSelected
                 style={{justifyContent: "center",
                   borderBottom: "none"
@@ -55,32 +75,38 @@ export function Selecteds() {
           }
         </div>
 
-        {/* <SelectedsMain>
-          <ValueOfTotalItems>
+
+            {cart.length ? (
+           <SelectedsMain>
+            <ValueOfTotalItems>
             <p>Total de itens</p>
             <p>
-              <span>R$</span> 29,70
+            <small>R$</small> {totalItemsValue ? totalItemsValue.toFixed(2).replace(".", ",") : "0,00"}
             </p>
           </ValueOfTotalItems>
-
-          <DeliveryTax>
+            
+            
+            <DeliveryTax>
             <p>Taxa de Entrega</p>
 
             <p>
-              <span>R$ </span>
-              3,50
+              <small>R$ </small>
+              { deliveryTax ? deliveryTax.toFixed(2).replace(".", ",") : "0,00" }
             </p>
           </DeliveryTax>
 
-          <TotalValue>
+            <TotalValue>
             <p>Total</p>
 
             <strong>
-              <span>R$</span>
-              33,20
+              <small>R$ </small>
+              {totalValue ? totalValue.toFixed(2).replace(".", ",") : "0,00"}
             </strong>
           </TotalValue>
-        </SelectedsMain> */}
+        </SelectedsMain>
+          ) : (
+            ""
+          )}
       </SelectedsContainer>
     </div>
   );

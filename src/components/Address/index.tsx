@@ -10,7 +10,7 @@ import {
   AddressSummary,
 } from "./DeliveryAddress";
 import { ButtonContainer } from "../Variants/ButtonVariants";
-import { AddressContext } from "../../contexts/address/addressContext";
+import { CombinedContext } from "../../contexts/CombinedContext";
 import { AddressInputs } from "../AddressInput";
 
 interface DeliveryAddressProps {
@@ -65,7 +65,7 @@ export function DeliveryAddress({
   buttonRef,
 }: DeliveryAddressProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
-  const { createNewAddress } = useContext(AddressContext);
+  const { createNewAddress } = useContext(CombinedContext);
 
   const newAddressForm = useForm<TNewAddressFormData>({
     resolver: zodResolver(newAddressValidationSchema),
@@ -93,7 +93,7 @@ export function DeliveryAddress({
   const handleClose = () => onClose();
 
   function handleCreateNewAddress(data: TNewAddressFormData) {
-    createNewAddress(data);
+    createNewAddress(data)
     handleClose();
   }
 

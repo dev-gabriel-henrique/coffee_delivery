@@ -5,10 +5,10 @@ import { NavLink } from "react-router-dom";
 import { DeliveryAddress } from "../../components/Address/index";
 import { ButtonContainer } from "../Variants/ButtonVariants";
 import { useContext, useRef, useState } from "react";
-import { AddressContext } from "../../contexts/address/addressContext";
+import { CombinedContext } from "../../contexts/CombinedContext";
 
 export function Header() {
-  const { activeAddress } = useContext(AddressContext);
+  const { activeAddress } = useContext(CombinedContext);
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
 

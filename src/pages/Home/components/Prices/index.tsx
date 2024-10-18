@@ -7,28 +7,36 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { PricesContainer } from "./Prices";
 import { ButtonContainer } from "../../../../components/Variants/ButtonVariants";
 import { Quantity } from "../../../../components/Quantity";
-import { CoffeeContext } from "../../../../contexts/coffes/coffeContext";
+import { CombinedContext } from "../../../../contexts/CombinedContext";
 
 interface PricesProps {
-  coffeePrice: number;
+  image: string;
+  value: number;
+  coffee: string
 }
 
 const quantityValidationSchema = zod.object({
-  quantity: zod
+  quantidade: zod
   .number()
-  .min(1, "Selecione ao menos 1 café para prosseguir")
+  .min(1, "Selecione ao menos 1 café para prosseguir"),
+  valor: zod.string(),
+  coffee: zod.string(),
+  imgSrc: zod.string(),
 })
 
 type TQuantityFormData = zod.infer<typeof quantityValidationSchema>;
 
-export function Prices({coffeePrice}: PricesProps) {
+export function Prices({image, value, coffee}: PricesProps) {
+  const { addCoffeeToCart } = useContext(CombinedContext)
   const newCoffeeForm = useForm<TQuantityFormData>({
     resolver: zodResolver(quantityValidationSchema),
     defaultValues: {
-      quantity: null,
+      quantidade: 0,
+      imgSrc: image,
+      coffee: coffee,
+      valor: String(value),
     },
   });
-  const { selectNewCoffee } = useContext(CoffeeContext)
   const { handleSubmit, watch } = newCoffeeForm 
 
   const {formState: { errors }} = newCoffeeForm;
@@ -39,24 +47,24 @@ export function Prices({coffeePrice}: PricesProps) {
     }
   }, [errors])
 
-  const handleShopNewCoffee = (data: TQuantityFormData) => {
-    selectNewCoffee(data)
+  const handleShopNewCoffee = (data: TQuantityFormData) => { 
+    addCoffeeToCart(data)
   }
 
-  const coffeeQuantity = watch("quantity")
+  const coffeeQuantity = watch("quantidade")
 
   return (
   <PricesContainer>
     <FormProvider {...newCoffeeForm}>
     <form onSubmit={handleSubmit(handleShopNewCoffee)}>
   <span>
-    <small>R$</small> {coffeePrice ? coffeePrice.toFixed(2).replace(".", ",") : "0,00"}
+    <small>R$</small> {value ? value.toFixed(2).replace(".", ",") : "0,00"}
   </span>
   
   <Quantity />
 
   <ButtonContainer 
-  disabled={!coffeeQuantity} 
+  disabled={!coffeeQuantity}
   type="submit" 
   variant="icon"
   >

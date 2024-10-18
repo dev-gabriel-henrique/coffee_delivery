@@ -1,64 +1,58 @@
-import {
-  useFormContext,
-} from 'react-hook-form'
-
+import { useFormContext } from 'react-hook-form';
 import { Minus, Plus } from "@phosphor-icons/react";
 import { QuantityContainer } from "./Quantity";
 
 export function Quantity() {
-  const { register, setValue, watch } = useFormContext()
+  const { register, setValue, watch } = useFormContext();
 
-  const coffeeQuantity = watch("quantity");
+  const coffeeQuantity = watch("quantidade") ?? 0;
 
   const handleIncrement = () => {
-    coffeeQuantity == null ? (
-      setValue('quantity', 1)
-    ) : (
-    setValue('quantity', coffeeQuantity + 1)
-    )
-  }
+    const newQuantity = coffeeQuantity === 0 ? 1 : coffeeQuantity + 1;
+    setValue('quantidade', newQuantity);
+  };
 
   const handleDecrement = () => {
-    if(coffeeQuantity > 0) {
-    setValue('quantity', coffeeQuantity - 1)
-  }
-  }
+    if (coffeeQuantity && coffeeQuantity > 0) {
+      setValue('quantidade', coffeeQuantity - 1);
+    }
+  };
 
   const handleManualChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
-    if (newValue.length <= 2 && /^[0-9]*$/.test(newValue)) {
-      setValue("quantity", newValue ? Number(newValue) : null);
+    if (/^\d{0,2}$/.test(newValue)) {
+      setValue("quantidade", newValue ? Number(newValue) : 0);
     }
   };
 
   return (
     <QuantityContainer>
-    <button
-    type="button"
-    id="minusButton"
-    onClick={handleDecrement}
-    disabled={coffeeQuantity <= 0}>
-      <Minus weight="bold" size={14} />
-    </button>
+      <button
+        type="button"
+        id="minusButton"
+        onClick={handleDecrement}
+        disabled={!coffeeQuantity}
+      >
+        <Minus weight="bold" size={14} />
+      </button>
 
-    <input
-    id="number" 
-    type="number" 
-    maxLength={2}
-    value={coffeeQuantity == null ? null : coffeeQuantity}
-    {...register("quantity", 
-      { valueAsNumber: true,
-        onChange: handleManualChange
-       })}
-    />
+      <input
+        id="number"
+        type="number"
+        value={coffeeQuantity}
+        {...register("quantidade", {
+          valueAsNumber: true,
+          onChange: handleManualChange,
+        })}
+      />
 
-    <button 
-    type="button"
-    id="moreButton"
-    onClick={handleIncrement}
-    >
-      <Plus weight="bold" size={14} />
-    </button>
-  </QuantityContainer>
-  )
+      <button
+        type="button"
+        id="moreButton"
+        onClick={handleIncrement}
+      >
+        <Plus weight="bold" size={14} />
+      </button>
+    </QuantityContainer>
+  );
 }

@@ -1,11 +1,10 @@
-import { FormProvider } from "react-hook-form";
 import { Prices } from "../Prices";
 import { Coffee } from "./ImageCoffee";
 import { CardCoffee, SpanContext } from "./style";
 
 interface ICoffeeList {
   id: number;
-  nome: string;
+  coffee: string;
   valor: number;
   imgSrc: string;
   alt: string;
@@ -16,7 +15,7 @@ interface ICoffeeList {
 export const coffeeList: ICoffeeList[] = [
   {
     id: 1,
-    nome: "Expresso Tradicional",
+    coffee: "Expresso Tradicional",
     categorias: ["Tradicional"],
     imgSrc: Coffee.tradicionalCoffee,
     descricao: "O tradicional café feito com água quente e grãos moídos",
@@ -25,7 +24,7 @@ export const coffeeList: ICoffeeList[] = [
   },
   {
     id: 2,
-    nome: "Expresso Americano",
+    coffee: "Expresso Americano",
     categorias: ["Tradicional"],
     imgSrc: Coffee.americanCoffee,
     descricao: "Expresso diluído, menos intenso que o tradicional",
@@ -34,7 +33,7 @@ export const coffeeList: ICoffeeList[] = [
   },
   {
     id: 3,
-    nome: "Expresso Cremoso",
+    coffee: "Expresso Cremoso",
     categorias: ["Tradicional"],
     imgSrc: Coffee.creamyCoffee,
     descricao: "Café expresso tradicional com espuma cremosa",
@@ -43,7 +42,7 @@ export const coffeeList: ICoffeeList[] = [
   },
   {
     id: 4,
-    nome: "Expresso Gelado",
+    coffee: "Expresso Gelado",
     categorias: ["Tradicional", "Gelado"],
     imgSrc: Coffee.icedCoffee,
     descricao: "Bebida preparada com café expresso e cubos de gelo",
@@ -52,7 +51,7 @@ export const coffeeList: ICoffeeList[] = [
   },
   {
     id: 5,
-    nome: "Café com Leite",
+    coffee: "Café com Leite",
     categorias: ["Tradicional", "Com leite"],
     imgSrc: Coffee.coffeeWithMilk,
     descricao: "Meio a meio de expresso tradicional com leite vaporizado",
@@ -61,7 +60,7 @@ export const coffeeList: ICoffeeList[] = [
   },
   {
     id: 6,
-    nome: "Latte",
+    coffee: "Latte",
     categorias: ["Tradicional", "Com leite"],
     imgSrc: Coffee.latte,
     descricao: "Uma dose de café expresso com o dobro de leite e espuma cremosa",
@@ -70,7 +69,7 @@ export const coffeeList: ICoffeeList[] = [
   },
   {
     id: 7,
-    nome: "Capuccino",
+    coffee: "Capuccino",
     categorias: ["Tradicional", "Com leite"],
     imgSrc: Coffee.capuccino,
     descricao: "Bebida com canela feita de doses iguais de café, leite e espuma",
@@ -79,7 +78,7 @@ export const coffeeList: ICoffeeList[] = [
   },
   {
     id: 8,
-    nome: "Macchiato",
+    coffee: "Macchiato",
     categorias: ["Tradicional", "Com leite"],
     imgSrc: Coffee.macchiato,
     descricao: "O tradicional café feito com água quente e grãos moídos",
@@ -88,7 +87,7 @@ export const coffeeList: ICoffeeList[] = [
   },
   {
     id: 9,
-    nome: "Mocaccino",
+    coffee: "Mocaccino",
     categorias: ["Tradicional", "Com leite"],
     imgSrc: Coffee.mocaccino,
     descricao: "Café expresso com calda de chocolate, pouco leite e espuma",
@@ -97,7 +96,7 @@ export const coffeeList: ICoffeeList[] = [
   },
   {
     id: 10,
-    nome: "Chocolate Quente",
+    coffee: "Chocolate Quente",
     categorias: ["Especial", "Com leite"],
     imgSrc: Coffee.hotCocoa,
     descricao: "Bebida feita com chocolate dissolvido no leite quente e café",
@@ -106,7 +105,7 @@ export const coffeeList: ICoffeeList[] = [
   },
   {
     id: 11,
-    nome: "Cubano",
+    coffee: "Cubano",
     categorias: ["Especial", "Alcoólico", "Gelado"],
     imgSrc: Coffee.cubano,
     descricao: "Drink gelado de café expresso com rum, creme de leite e hortelã",
@@ -115,7 +114,7 @@ export const coffeeList: ICoffeeList[] = [
   },
   {
     id: 12,
-    nome: "Havaiano",
+    coffee: "Havaiano",
     categorias: ["Especial"],
     imgSrc: Coffee.havaiano,
     descricao: "Bebida adocicada preparada com café e leite de coco",
@@ -124,7 +123,7 @@ export const coffeeList: ICoffeeList[] = [
   },
   {
     id: 13,
-    nome: "Árabe",
+    coffee: "Árabe",
     categorias: ["Especial"],
     imgSrc: Coffee.arabianCoffee,
     descricao: "Bebida preparada com grãos de café árabe e especiarias",
@@ -133,7 +132,7 @@ export const coffeeList: ICoffeeList[] = [
   },
   {
     id: 14,
-    nome: "Irlandês",
+    coffee: "Irlandês",
     categorias: ["Especial", "Alcoólico"],
     imgSrc: Coffee.irlandes,
     descricao: "Bebida a base de café, uísque irlandês, açúcar e chantilly",
@@ -153,9 +152,14 @@ export function CardContainer() {
               <span key={index}>{categoria}</span>
             ))}
           </SpanContext>
-          <h2>{coffee.nome}</h2>
+          <h2>{coffee.coffee}</h2>
           <p>{coffee.descricao}</p>
-          <Prices coffeePrice={coffee.valor} />
+          <Prices 
+          image={coffee.imgSrc}
+          key={coffee.id}
+          value={coffee.valor}
+          coffee={coffee.coffee}
+           />
         </CardCoffee>
       ))}
     </>
