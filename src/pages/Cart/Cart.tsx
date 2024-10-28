@@ -1,17 +1,34 @@
-import { ButtonContainer } from "../../components/Variants/ButtonVariants";
+import { NavLink } from "react-router-dom";
 import { DeliveryPaymentMethod } from "./components/DeliveryPaymentMethod";
 import { Selecteds } from "./components/Selecteds";
 import { CartContainer } from "./styles";
+import { useContext } from "react";
+import { CombinedContext } from "../../contexts/CombinedContext";
+import { ButtonContainer } from "../../components/Variants/ButtonVariants";
 
 export function Cart() {
+  const { cart, activeAddress } = useContext(CombinedContext);
   return (
     <CartContainer>
-    <Selecteds />
-    <DeliveryPaymentMethod />
+      {cart.length ? (
+        <CartContainer>
+          <Selecteds />
+          <DeliveryPaymentMethod />
 
-    <ButtonContainer variant="primary">
-      Confirmar Pedido
-    </ButtonContainer>
+          {activeAddress ? (
+            <NavLink to="/success">Confirmar Pedido</NavLink>
+          ) : (
+            <ButtonContainer
+              variant="primary"
+              disabled={!activeAddress}
+            >
+              Selecione o Endereço por gentileza
+            </ButtonContainer>
+          )}
+        </CartContainer>
+      ) : (
+        <Selecteds />
+      )}
     </CartContainer>
-  )
+  );
 }

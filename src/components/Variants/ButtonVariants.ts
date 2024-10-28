@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 import { DefaultTheme } from "styled-components/dist/types";
 
-export const ButtonVariantStyle = (theme: DefaultTheme, variant = "primary") =>
+const ButtonVariantStyle = (theme: DefaultTheme, variant = "primary") =>
   ({
     primary: css`
       background: ${theme["yellow"]};

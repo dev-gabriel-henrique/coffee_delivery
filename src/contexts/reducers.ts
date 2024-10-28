@@ -32,11 +32,11 @@ export function addressReducers(
   state: IAddressState,
   action: AddressAction,
 ) {
-  switch(action.type) {
+  switch (action.type) {
     case ActionTypes.ADD_NEW_ADDRESS: {
       return produce(state, draft => {
         draft.addresses.push(action.payload.newAddress),
-        draft.activeAddressId = action.payload.newAddress.id
+          draft.activeAddressId = action.payload.newAddress.id
       })
     }
 
@@ -53,36 +53,50 @@ export function addressReducers(
 }
 
 export function cartReducers(state: ICartState, action: CartAction): ICartState {
-  switch(action.type) {
+  switch (action.type) {
     case ActionTypes.ADD_TO_CART: {
       const { coffee } = action.payload;
+      const existingCoffee = state.coffee.find(item => item.id === coffee.id);
 
-      const existingCoffeeIndex = state.coffee.findIndex(item => item.id === coffee.id);
-
-      if (existingCoffeeIndex !== -1) {
-        const updatedCoffee = {
-          ...state.coffee[existingCoffeeIndex],
-          quantidade: state.coffee[existingCoffeeIndex].quantidade + coffee.quantidade
+      if (existingCoffee) {
+        return {
+          ...state,
+          coffee: state.coffee.map(item =>
+            item.id === coffee.id
+              ? { ...item, quantidade: (item.quantidade || 0) + (coffee.quantidade || 0) }
+              : item
+          ),
         };
-
-        const updatedCart = [
-          ...state.coffee.slice(0, existingCoffeeIndex),
-          updatedCoffee,
-          ...state.coffee.slice(existingCoffeeIndex + 1)
-        ];
-
-        return { ...state, coffee: updatedCart };
       }
 
-      return { ...state, coffee: [...state.coffee, { ...coffee }] };
+      return {
+        ...state,
+        coffee: [...state.coffee, coffee],
+      };
+    }
+
+    case ActionTypes.UPDATE_CART: {
+      return {
+        ...state,
+        coffee: state.coffee.map((item) =>
+          item.id === action.payload.coffeeId
+            ? { ...item, quantidade: action.payload.newQuantity }
+            : item
+        ),
+      };
     }
 
     case ActionTypes.REMOVE_FROM_CART: {
       const coffeeIdToRemove = action.payload;
-      return { ...state, coffee: state.coffee.filter(item => item.id !== coffeeIdToRemove) };
+      console.log("Removendo ID:", coffeeIdToRemove);
+      return {
+        ...state,
+        coffee: [...state.coffee.filter(item => item.id !== coffeeIdToRemove)],
+      };
     }
 
-    default: 
+    default:
       return state;
   }
 }
+

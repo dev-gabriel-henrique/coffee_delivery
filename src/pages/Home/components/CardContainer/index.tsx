@@ -3,7 +3,6 @@ import { Coffee } from "./ImageCoffee";
 import { CardCoffee, SpanContext } from "./style";
 
 interface ICoffeeList {
-  id: number;
   coffee: string;
   valor: number;
   imgSrc: string;
@@ -14,7 +13,6 @@ interface ICoffeeList {
 
 export const coffeeList: ICoffeeList[] = [
   {
-    id: 1,
     coffee: "Expresso Tradicional",
     categorias: ["Tradicional"],
     imgSrc: Coffee.tradicionalCoffee,
@@ -23,7 +21,6 @@ export const coffeeList: ICoffeeList[] = [
     valor: 6,
   },
   {
-    id: 2,
     coffee: "Expresso Americano",
     categorias: ["Tradicional"],
     imgSrc: Coffee.americanCoffee,
@@ -32,7 +29,6 @@ export const coffeeList: ICoffeeList[] = [
     valor: 8,
   },
   {
-    id: 3,
     coffee: "Expresso Cremoso",
     categorias: ["Tradicional"],
     imgSrc: Coffee.creamyCoffee,
@@ -41,7 +37,6 @@ export const coffeeList: ICoffeeList[] = [
     valor: 9,
   },
   {
-    id: 4,
     coffee: "Expresso Gelado",
     categorias: ["Tradicional", "Gelado"],
     imgSrc: Coffee.icedCoffee,
@@ -50,7 +45,6 @@ export const coffeeList: ICoffeeList[] = [
     valor: 7,
   },
   {
-    id: 5,
     coffee: "Café com Leite",
     categorias: ["Tradicional", "Com leite"],
     imgSrc: Coffee.coffeeWithMilk,
@@ -59,7 +53,6 @@ export const coffeeList: ICoffeeList[] = [
     valor: 10,
   },
   {
-    id: 6,
     coffee: "Latte",
     categorias: ["Tradicional", "Com leite"],
     imgSrc: Coffee.latte,
@@ -68,7 +61,6 @@ export const coffeeList: ICoffeeList[] = [
     valor: 11,
   },
   {
-    id: 7,
     coffee: "Capuccino",
     categorias: ["Tradicional", "Com leite"],
     imgSrc: Coffee.capuccino,
@@ -77,7 +69,6 @@ export const coffeeList: ICoffeeList[] = [
     valor: 12,
   },
   {
-    id: 8,
     coffee: "Macchiato",
     categorias: ["Tradicional", "Com leite"],
     imgSrc: Coffee.macchiato,
@@ -86,7 +77,6 @@ export const coffeeList: ICoffeeList[] = [
     valor: 14,
   },
   {
-    id: 9,
     coffee: "Mocaccino",
     categorias: ["Tradicional", "Com leite"],
     imgSrc: Coffee.mocaccino,
@@ -95,7 +85,6 @@ export const coffeeList: ICoffeeList[] = [
     valor: 13,
   },
   {
-    id: 10,
     coffee: "Chocolate Quente",
     categorias: ["Especial", "Com leite"],
     imgSrc: Coffee.hotCocoa,
@@ -104,7 +93,6 @@ export const coffeeList: ICoffeeList[] = [
     valor: 10,
   },
   {
-    id: 11,
     coffee: "Cubano",
     categorias: ["Especial", "Alcoólico", "Gelado"],
     imgSrc: Coffee.cubano,
@@ -113,7 +101,6 @@ export const coffeeList: ICoffeeList[] = [
     valor: 18,
   },
   {
-    id: 12,
     coffee: "Havaiano",
     categorias: ["Especial"],
     imgSrc: Coffee.havaiano,
@@ -122,7 +109,6 @@ export const coffeeList: ICoffeeList[] = [
     valor: 18,
   },
   {
-    id: 13,
     coffee: "Árabe",
     categorias: ["Especial"],
     imgSrc: Coffee.arabianCoffee,
@@ -131,7 +117,6 @@ export const coffeeList: ICoffeeList[] = [
     valor: 25,
   },
   {
-    id: 14,
     coffee: "Irlandês",
     categorias: ["Especial", "Alcoólico"],
     imgSrc: Coffee.irlandes,
@@ -145,7 +130,7 @@ export function CardContainer() {
   return (
     <>
       {coffeeList.map((coffee) => (
-        <CardCoffee key={coffee.id}>
+        <CardCoffee key={coffee.coffee}>
           <img src={coffee.imgSrc} alt={coffee.alt} />
           <SpanContext>
             {coffee.categorias.map((categoria, index) => (
@@ -156,7 +141,7 @@ export function CardContainer() {
           <p>{coffee.descricao}</p>
           <Prices 
           image={coffee.imgSrc}
-          key={coffee.id}
+          key={coffee.coffee}
           value={coffee.valor}
           coffee={coffee.coffee}
            />

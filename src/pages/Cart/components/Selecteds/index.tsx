@@ -1,4 +1,7 @@
 import { Trash } from "@phosphor-icons/react";
+import * as zod from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FormProvider, useForm } from "react-hook-form";
 import { Quantity } from "../../../../components/Quantity";
 import { ButtonContainer } from "../../../../components/Variants/ButtonVariants";
 import {
@@ -12,26 +15,34 @@ import {
 } from "./Selecteds";
 import { useContext, useState } from "react";
 import { CombinedContext } from "../../../../contexts/CombinedContext";
-import { FormProvider, useForm } from "react-hook-form";
+
+const quantityValidationSchema = zod.object({
+  quantidade: zod
+    .number()
+    .min(1, "Selecione ao menos 1 café para prosseguir"),
+});
+
+type TQuantityFormData = zod.infer<typeof quantityValidationSchema>;
 
 export function Selecteds() {
-  const { cart, removeCoffeeFromCart } = useContext(CombinedContext)
-  
-  const [deliveryTax] = useState<number>(3.5)
+  const { cart, removeCoffeeFromCart, updateCoffeeQuantity } = useContext(CombinedContext);
+  const newCoffeeForm = useForm<TQuantityFormData>({
+    resolver: zodResolver(quantityValidationSchema),
+    defaultValues: {
+      quantidade: 0,
+    },
+  });
 
-  const multiplyCoffes = (a: number, b: number) => {
-    if (a > 1) {
-      return b * a
-    }
-    return b
-  }
+  const [deliveryTax] = useState<number>(3.5);
+
+  const multiplyCoffes = (a: number, b: number) => (a > 1 ? b * a : b);
 
   const totalItemsValue = cart.reduce((total, coffee) => {
     return total + multiplyCoffes(coffee.quantidade, Number(coffee.valor));
   }, 0);
 
   const totalValue = totalItemsValue + deliveryTax;
-    
+
   return (
     <div>
       <H1Selected>Cafés Selecionados</H1Selected>
@@ -39,74 +50,79 @@ export function Selecteds() {
         <div>
           {cart.length ? (
             cart.map((selectedCoffee) => (
-              <CoffeeSelected key={selectedCoffee!.id}>
-                <img src={selectedCoffee.imgSrc} alt="" />
-              <div>
-                <p>{selectedCoffee!.coffee}</p>
-
+              <CoffeeSelected key={selectedCoffee.id!}>
+                <img src={selectedCoffee.imgSrc!} alt="" />
                 <div>
-                  <FormProvider {...useForm({defaultValues: { quantity: selectedCoffee!.quantidade } })}>
-                  <Quantity />
-                  </FormProvider>
-                <ButtonContainer 
-                onClick={() => removeCoffeeFromCart}
-                variant="secondary">
-                  <Trash size={16} />
-                  Remover
-                </ButtonContainer>
-                </div>
-              </div>
+                  <p>{selectedCoffee.coffee!}</p>
 
-              <p>
-                <span>R$</span>
-                {selectedCoffee!.valor},00
-              </p>
-            </CoffeeSelected> )
-            )) : (
-              <CoffeeSelected
-                style={{justifyContent: "center",
-                  borderBottom: "none"
-                }}>
-                <h1>
-                  Selecione um café na página inicial
-                  </h1>
+                  <div>
+                    <FormProvider {...newCoffeeForm}>
+                      <Quantity
+                        quantity={selectedCoffee.quantidade}
+                        onIncrement={() => updateCoffeeQuantity(selectedCoffee.id!, selectedCoffee.quantidade + 1)}
+                        onDecrement={() => updateCoffeeQuantity(selectedCoffee.id!, selectedCoffee.quantidade - 1)}
+                      />
+                    </FormProvider>
+                    <ButtonContainer
+                      onClick={() => removeCoffeeFromCart(selectedCoffee.id!)}
+                      variant="secondary"
+                    >
+                      <Trash size={16} />
+                      Remover
+                    </ButtonContainer>
+                  </div>
+                </div>
+
+                <p>
+                  <span>R$</span>
+                  {Number(selectedCoffee.valor).toFixed(2).replace(".", ",")}
+                </p>
               </CoffeeSelected>
-            )
-          }
+            ))
+          ) : (
+            <CoffeeSelected
+              style={{ justifyContent: "center", borderBottom: "none" }}
+            >
+              <h1>Selecione um café na página inicial</h1>
+            </CoffeeSelected>
+          )}
         </div>
 
-
-            {cart.length ? (
-           <SelectedsMain>
+        {cart.length ? (
+          <SelectedsMain>
             <ValueOfTotalItems>
-            <p>Total de itens</p>
-            <p>
-            <small>R$</small> {totalItemsValue ? totalItemsValue.toFixed(2).replace(".", ",") : "0,00"}
-            </p>
-          </ValueOfTotalItems>
-            
-            
-            <DeliveryTax>
-            <p>Taxa de Entrega</p>
+              <p>Total de itens</p>
+              <p>
+                <small>R$</small>{" "}
+                {totalItemsValue
+                  ? totalItemsValue.toFixed(2).replace(".", ",")
+                  : "0,00"}
+              </p>
+            </ValueOfTotalItems>
 
-            <p>
-              <small>R$ </small>
-              { deliveryTax ? deliveryTax.toFixed(2).replace(".", ",") : "0,00" }
-            </p>
-          </DeliveryTax>
+            <DeliveryTax>
+              <p>Taxa de Entrega</p>
+
+              <p>
+                <small>R$ </small>
+                {deliveryTax
+                  ? deliveryTax.toFixed(2).replace(".", ",")
+                  : "0,00"}
+              </p>
+            </DeliveryTax>
 
             <TotalValue>
-            <p>Total</p>
+              <p>Total</p>
 
-            <strong>
-              <small>R$ </small>
-              {totalValue ? totalValue.toFixed(2).replace(".", ",") : "0,00"}
-            </strong>
-          </TotalValue>
-        </SelectedsMain>
-          ) : (
-            ""
-          )}
+              <strong>
+                <small>R$ </small>
+                {totalValue ? totalValue.toFixed(2).replace(".", ",") : "0,00"}
+              </strong>
+            </TotalValue>
+          </SelectedsMain>
+        ) : (
+          ""
+        )}
       </SelectedsContainer>
     </div>
   );

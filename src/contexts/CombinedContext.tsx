@@ -1,4 +1,10 @@
-import { createContext, ReactNode, useEffect, useReducer, useState } from "react";
+import { 
+  createContext, 
+  ReactNode, 
+  useEffect, 
+  useReducer, 
+  useState 
+} from "react";
 import { 
   ICoffee, 
   IAddress, 
@@ -11,6 +17,7 @@ import {
   setActiveAddressIdAction,
   addToCartAction,
   removeFromCartAction,
+  updateCartAction,
 } from "./actions";
 
 interface IAddressData {
@@ -37,6 +44,7 @@ interface ICombinedContext {
   setSecondsPassed: (seconds: number) => void;
   createNewAddress: (data: IAddressData) => void;
   addCoffeeToCart: (data: ICoffee) => void;
+  updateCoffeeQuantity: (coffeeId: number, quantity: number) => void;
   removeCoffeeFromCart: (coffeeId: number) => void;
 }
 
@@ -58,7 +66,6 @@ export function CombinedContextProvider({ children }: ICombinedContextProviderPr
       return storedAddressState ? JSON.parse(storedAddressState) : initialState;
     }
   );
-
   function loadStoredCartState(defaultCartState: ICartState): ICartState {
     const storedCartState = localStorage.getItem("@delivery:cart-state");
     const parsedState = storedCartState ? JSON.parse(storedCartState) : defaultCartState;
@@ -71,14 +78,16 @@ export function CombinedContextProvider({ children }: ICombinedContextProviderPr
 
   const [cartState, dispatchCart] = useReducer(
     cartReducers,
-    {coffee: []},
-    loadStoredCartState
+    {
+      coffee: [],
+    },
+    loadStoredCartState,
   );
 
   const { addresses, activeAddressId } = addressState;
   const cart = cartState.coffee;
-
   const activeAddress = addresses.find((address) => address.id === activeAddressId);
+
 
   const [amountSecondsPassed, setAmountSecondsPassed] = useState<number>(() => {
     if (activeAddress) {
@@ -102,6 +111,7 @@ export function CombinedContextProvider({ children }: ICombinedContextProviderPr
   function setSecondsPassed(seconds: number) {
     setAmountSecondsPassed(seconds);
   }
+
   function createNewAddress(data: IAddressData) {
     const newAddress: IAddress = {
       id: new Date().getTime(),
@@ -120,8 +130,31 @@ export function CombinedContextProvider({ children }: ICombinedContextProviderPr
     setAmountSecondsPassed(0);
   }
 
-  function addCoffeeToCart(coffee: ICoffee) {
-    dispatchCart(addToCartAction(coffee));
+  function addCoffeeToCart(data: ICoffee) {
+    const existingCoffee = cart.find(coffee => coffee.coffee === data.coffee);
+  
+    if (existingCoffee) {
+      const updatedQuantity = existingCoffee.quantidade + data.quantidade
+
+      dispatchCart(updateCartAction(existingCoffee.id!, updatedQuantity))
+    } else {
+      const selectCoffee: ICoffee = {
+        id: data.id || new Date().getTime(),
+        coffee: data.coffee,
+        imgSrc: data.imgSrc,
+        quantidade: data.quantidade,
+        valor: data.valor,
+        startDate: new Date(),
+      };
+  
+      dispatchCart(addToCartAction(selectCoffee));
+    }
+  }
+  
+
+  function updateCoffeeQuantity(coffeeId: number, newQuantity: number) {
+
+      dispatchCart(updateCartAction(coffeeId, newQuantity));
   }
 
   function removeCoffeeFromCart(coffeeId: number) {
@@ -139,6 +172,7 @@ export function CombinedContextProvider({ children }: ICombinedContextProviderPr
         setSecondsPassed,
         createNewAddress,
         addCoffeeToCart,
+        updateCoffeeQuantity,
         removeCoffeeFromCart,
       }}
     >

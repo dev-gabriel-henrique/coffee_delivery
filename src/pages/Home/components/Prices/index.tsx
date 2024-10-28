@@ -1,4 +1,4 @@
-import * as zod from "zod"
+import * as zod from "zod";
 import { FormProvider, useForm } from "react-hook-form";
 import { useContext, useEffect } from "react";
 import { ShoppingCart } from "@phosphor-icons/react";
@@ -12,22 +12,22 @@ import { CombinedContext } from "../../../../contexts/CombinedContext";
 interface PricesProps {
   image: string;
   value: number;
-  coffee: string
+  coffee: string;
 }
 
 const quantityValidationSchema = zod.object({
   quantidade: zod
-  .number()
-  .min(1, "Selecione ao menos 1 café para prosseguir"),
+    .number()
+    .min(1, "Selecione ao menos 1 café para prosseguir"),
   valor: zod.string(),
   coffee: zod.string(),
   imgSrc: zod.string(),
-})
+});
 
 type TQuantityFormData = zod.infer<typeof quantityValidationSchema>;
 
-export function Prices({image, value, coffee}: PricesProps) {
-  const { addCoffeeToCart } = useContext(CombinedContext)
+export function Prices({ image, value, coffee }: PricesProps) {
+  const { addCoffeeToCart } = useContext(CombinedContext);
   const newCoffeeForm = useForm<TQuantityFormData>({
     resolver: zodResolver(quantityValidationSchema),
     defaultValues: {
@@ -37,41 +37,51 @@ export function Prices({image, value, coffee}: PricesProps) {
       valor: String(value),
     },
   });
-  const { handleSubmit, watch } = newCoffeeForm 
+  const { 
+    handleSubmit, 
+    watch, 
+    setValue,
+    reset,
+    formState: { errors } ,
+  } = newCoffeeForm;
 
-  const {formState: { errors }} = newCoffeeForm;
 
   useEffect(() => {
     if (Object.keys(errors).length) {
       console.log("Erros de validação:", errors);
     }
-  }, [errors])
+  }, [errors]);
 
-  const handleShopNewCoffee = (data: TQuantityFormData) => { 
-    addCoffeeToCart(data)
-  }
+  const handleShopNewCoffee = (data: TQuantityFormData) => {
+    addCoffeeToCart(data);
+    reset()
+  };
 
-  const coffeeQuantity = watch("quantidade")
+  const coffeeQuantity = watch("quantidade"); 
 
   return (
-  <PricesContainer>
-    <FormProvider {...newCoffeeForm}>
-    <form onSubmit={handleSubmit(handleShopNewCoffee)}>
-  <span>
-    <small>R$</small> {value ? value.toFixed(2).replace(".", ",") : "0,00"}
-  </span>
-  
-  <Quantity />
+    <PricesContainer>
+      <FormProvider {...newCoffeeForm}>
+        <form onSubmit={handleSubmit(handleShopNewCoffee)}>
+          <span>
+            <small>R$</small> {value ? value.toFixed(2).replace(".", ",") : "0,00"}
+          </span>
+          
+          <Quantity
+            quantity={coffeeQuantity}
+            onIncrement={() => setValue("quantidade", coffeeQuantity + 1)}
+            onDecrement={() => setValue("quantidade", coffeeQuantity - 1)}
+          />
 
-  <ButtonContainer 
-  disabled={!coffeeQuantity}
-  type="submit" 
-  variant="icon"
-  >
-    <ShoppingCart size={22} weight="fill" />
-  </ButtonContainer>
-  </form>
-    </FormProvider>
-</PricesContainer>
-)
+          <ButtonContainer 
+            disabled={coffeeQuantity < 1}
+            type="submit" 
+            variant="icon"
+          >
+            <ShoppingCart size={22} weight="fill" />
+          </ButtonContainer>
+        </form>
+      </FormProvider>
+    </PricesContainer>
+  );
 }
