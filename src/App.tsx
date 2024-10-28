@@ -5,7 +5,6 @@ import { GlobalStyle } from "./styles/global";
 import { BrowserRouter } from "react-router-dom";
 import { defaultTheme } from "./styles/themes/default";
 import { CombinedContextProvider } from "./contexts/CombinedContext";
-import { ButtonContainer } from "./components/Variants/ButtonVariants";
 
 export function App() {
   return (
