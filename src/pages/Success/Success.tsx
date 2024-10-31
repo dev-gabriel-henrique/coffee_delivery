@@ -3,9 +3,17 @@ import delivery from "../../assets/delivery.png"
 import { CurrencyDollar, MapPin, Timer } from "@phosphor-icons/react";
 import { useContext } from "react";
 import { CombinedContext } from "../../contexts/CombinedContext";
+import { ButtonContainer } from "../../components/Variants/ButtonVariants";
 
 export function Success() {
-  const { activeAddress } = useContext(CombinedContext)
+  const { activeAddress, selectedPaymentMethod, clearCart } = useContext(CombinedContext)
+
+  const newOrder = () => {
+    clearCart()
+
+    window.location.href = "/"
+  }
+
   return (
     <SuccessContainer>
       <h1>Uhu! Pedido confirmado</h1>
@@ -23,7 +31,7 @@ export function Success() {
             </span>
 
             {activeAddress ? (
-            <p>
+            <p style={{textTransform: "capitalize"}}>
               Entrega em
               <strong>
               {
@@ -67,13 +75,22 @@ export function Success() {
 
             <p>
               Forma de Pagamento <br />
-              <strong>Cartão de crédito</strong>
+              <strong>{selectedPaymentMethod}</strong>
             </p>
           </Informations>
         </DeliveryInfo>
 
+
         <img src={delivery} alt="Motorista indo entregar o pedido " />
       </div>
+
+        <ButtonContainer 
+        style={{marginTop: "2rem"}}
+        variant="primary" 
+        onClick={() => newOrder()} 
+        >
+          Fazer novo pedido
+        </ButtonContainer>
     </SuccessContainer>
 )
 }

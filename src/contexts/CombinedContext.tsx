@@ -1,23 +1,19 @@
-import { 
-  createContext, 
-  ReactNode, 
-  useEffect, 
-  useReducer, 
-  useState 
+import {
+  createContext,
+  ReactNode,
+  useEffect,
+  useReducer,
+  useState,
 } from "react";
-import { 
-  ICoffee, 
-  IAddress, 
-  addressReducers ,
-  cartReducers,
-  } from "./reducers"
+import { ICoffee, IAddress, addressReducers, cartReducers } from "./reducers";
 import { differenceInSeconds } from "date-fns";
-import { 
-  addNewAddressAction, 
+import {
+  addNewAddressAction,
   setActiveAddressIdAction,
   addToCartAction,
   removeFromCartAction,
   updateCartAction,
+  clearCartAction,
 } from "./actions";
 
 interface IAddressData {
@@ -32,7 +28,7 @@ interface IAddressData {
 }
 
 export interface ICartState {
-  coffee: ICoffee[]
+  coffee: ICoffee[];
 }
 
 interface ICombinedContext {
@@ -41,11 +37,14 @@ interface ICombinedContext {
   activeAddressId: number | null;
   amountSecondsPassed: number;
   cart: ICoffee[];
+  selectedPaymentMethod: string | null;
+  setPaymentMethod: (method: string) => void;
   setSecondsPassed: (seconds: number) => void;
   createNewAddress: (data: IAddressData) => void;
   addCoffeeToCart: (data: ICoffee) => void;
   updateCoffeeQuantity: (coffeeId: number, quantity: number) => void;
   removeCoffeeFromCart: (coffeeId: number) => void;
+  clearCart: () => void;
 }
 
 interface ICombinedContextProviderProps {
@@ -54,7 +53,9 @@ interface ICombinedContextProviderProps {
 
 export const CombinedContext = createContext({} as ICombinedContext);
 
-export function CombinedContextProvider({ children }: ICombinedContextProviderProps) {
+export function CombinedContextProvider({
+  children,
+}: ICombinedContextProviderProps) {
   const [addressState, dispatchAddress] = useReducer(
     addressReducers,
     {
@@ -62,32 +63,36 @@ export function CombinedContextProvider({ children }: ICombinedContextProviderPr
       activeAddressId: null,
     },
     (initialState) => {
-      const storedAddressState = localStorage.getItem("@delivery:address-state");
+      const storedAddressState = localStorage.getItem(
+        "@delivery:address-state"
+      );
       return storedAddressState ? JSON.parse(storedAddressState) : initialState;
     }
   );
   function loadStoredCartState(defaultCartState: ICartState): ICartState {
     const storedCartState = localStorage.getItem("@delivery:cart-state");
-    const parsedState = storedCartState ? JSON.parse(storedCartState) : defaultCartState;
-  
+    const parsedState = storedCartState
+      ? JSON.parse(storedCartState)
+      : defaultCartState;
+
     return {
       coffee: parsedState.coffee || [],
     };
   }
-  
 
   const [cartState, dispatchCart] = useReducer(
     cartReducers,
     {
       coffee: [],
     },
-    loadStoredCartState,
+    loadStoredCartState
   );
 
   const { addresses, activeAddressId } = addressState;
   const cart = cartState.coffee;
-  const activeAddress = addresses.find((address) => address.id === activeAddressId);
-
+  const activeAddress = addresses.find(
+    (address) => address.id === activeAddressId
+  );
 
   const [amountSecondsPassed, setAmountSecondsPassed] = useState<number>(() => {
     if (activeAddress) {
@@ -131,12 +136,12 @@ export function CombinedContextProvider({ children }: ICombinedContextProviderPr
   }
 
   function addCoffeeToCart(data: ICoffee) {
-    const existingCoffee = cart.find(coffee => coffee.coffee === data.coffee);
-  
-    if (existingCoffee) {
-      const updatedQuantity = existingCoffee.quantidade + data.quantidade
+    const existingCoffee = cart.find((coffee) => coffee.coffee === data.coffee);
 
-      dispatchCart(updateCartAction(existingCoffee.id!, updatedQuantity))
+    if (existingCoffee) {
+      const updatedQuantity = existingCoffee.quantidade + data.quantidade;
+
+      dispatchCart(updateCartAction(existingCoffee.id!, updatedQuantity));
     } else {
       const selectCoffee: ICoffee = {
         id: data.id || new Date().getTime(),
@@ -146,21 +151,31 @@ export function CombinedContextProvider({ children }: ICombinedContextProviderPr
         valor: data.valor,
         startDate: new Date(),
       };
-  
+
       dispatchCart(addToCartAction(selectCoffee));
     }
   }
-  
 
   function updateCoffeeQuantity(coffeeId: number, newQuantity: number) {
-
-      dispatchCart(updateCartAction(coffeeId, newQuantity));
+    dispatchCart(updateCartAction(coffeeId, newQuantity));
   }
 
   function removeCoffeeFromCart(coffeeId: number) {
     dispatchCart(removeFromCartAction(coffeeId));
   }
-  
+
+  function clearCart() {
+    dispatchCart(clearCartAction())
+  }
+
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<
+    string | null
+  >(null);
+
+  function setPaymentMethod(method: string) {
+    setSelectedPaymentMethod(method);
+  }
+
   return (
     <CombinedContext.Provider
       value={{
@@ -174,6 +189,9 @@ export function CombinedContextProvider({ children }: ICombinedContextProviderPr
         addCoffeeToCart,
         updateCoffeeQuantity,
         removeCoffeeFromCart,
+        selectedPaymentMethod,
+        setPaymentMethod,
+        clearCart
       }}
     >
       {children}

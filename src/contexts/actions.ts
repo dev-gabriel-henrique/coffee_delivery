@@ -5,7 +5,8 @@ export enum ActionTypes {
   SET_ACTIVE_ADDRESS_ID = "SET_ACTIVE_ADDRESS_ID",
   ADD_TO_CART = 'ADD_TO_CART',
   UPDATE_CART = 'UPDATE_CART',
-  REMOVE_FROM_CART = 'REMOVE_FROM_CART'
+  REMOVE_FROM_CART = 'REMOVE_FROM_CART',
+  CLEAR_CART = 'CLEAR_CART'
 }
 
 export interface AddAddressAction {
@@ -40,11 +41,16 @@ export interface RemoveCoffeeFromCartAction {
   payload: number;
 }
 
+export interface ClearCartAction {
+  type: typeof ActionTypes.CLEAR_CART;
+}
+
 export type AddressAction = AddAddressAction | SetActiveAddressIdAction
 export type CartAction = 
  | AddCoffeeToCartAction 
  | UpdateCartAction 
- | RemoveCoffeeFromCartAction;
+ | RemoveCoffeeFromCartAction
+ | ClearCartAction;
 
 export function addNewAddressAction(newAddress: IAddress): AddAddressAction {
   return {
@@ -79,3 +85,7 @@ export const removeFromCartAction = (coffeeId: number): RemoveCoffeeFromCartActi
   type: ActionTypes.REMOVE_FROM_CART,
   payload: coffeeId,
 });
+
+export const clearCartAction = (): ClearCartAction => {
+  return { type: ActionTypes.CLEAR_CART };
+} 

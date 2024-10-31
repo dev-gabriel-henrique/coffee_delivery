@@ -95,6 +95,10 @@ export function cartReducers(state: ICartState, action: CartAction): ICartState 
       };
     }
 
+    case ActionTypes.CLEAR_CART: {
+      return {...state, coffee: []}
+    }
+
     default:
       return state;
   }

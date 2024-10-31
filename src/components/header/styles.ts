@@ -20,6 +20,7 @@ nav {
   gap: .75rem;
 
   & #cart {
+    position: relative;
     padding: .5rem;
     background-color: ${props => props.theme['yellow-light']};
     border-radius: 6px;
@@ -37,6 +38,26 @@ nav {
       & svg {
         fill: ${props => props.theme['yellow-light']};
       }
+    }
+
+    & span {
+      position: absolute;
+      bottom: 1.8rem;
+      left: 1.8rem;
+      z-index: 2;
+
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      background-color: ${props => props.theme['yellow-dark']};
+
+      font: 700 .75rem/130% 'Roboto', sans-serif;
+      color: ${props => props.theme['white']};
     }
   }
 }

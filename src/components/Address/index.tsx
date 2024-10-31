@@ -1,7 +1,7 @@
-import * as zod from "zod";
+import * as z from "zod";
 import { MapPin, X } from "@phosphor-icons/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FormProvider, useForm } from "react-hook-form";
+import { FieldErrors, FormProvider, useForm } from "react-hook-form";
 import React, { useContext, useEffect, useRef } from "react";
 
 import {
@@ -29,35 +29,22 @@ export interface ILocationProps {
   uf: string;
 }
 
-const newAddressValidationSchema = zod.object({
-  rua: zod
+const addressSchema = z.object({
+  cep: z
     .string()
-    .min(1, "Informe a sua rua!")
-    .max(255, "Máximo de caractéres atingido! (255)"),
-  bairro: zod
+    .min(9, "CEP deve ter 9 caracteres")
+    .regex(/^\d{5}-\d{3}$/, "Formato do CEP inválido"),
+  rua: z.string().min(1, "Rua é obrigatória"),
+  numero: z.string().min(1, "Número é obrigatório"),
+  bairro: z.string().min(1, "Bairro é obrigatório"),
+  cidade: z.string().min(1, "Cidade é obrigatória"),
+  uf: z
     .string()
-    .min(1, "Informe seu CEP!")
-    .max(255, "Máximo de caractéres atingido! (255)"),
-  numero: zod
-    .string()
-    .min(1, "Informe o número de sua residência!")
-    .max(255, "Máximo de caractéres atingido! (255)"),
-  cep: zod
-    .string()
-    .min(9, "Informe seu CEP!")
-    .max(9, "Número máximo atingido!"),
-  complemento: zod.string().max(255, "Máximo de caractéres atingido! (255)"),
-  cidade: zod
-    .string()
-    .min(1, "Informe sua cidade!")
-    .max(255, "Máximo de caractéres atingido! (255)"),
-  uf: zod
-    .string()
-    .min(1, "Informe seu estado")
-    .max(255, "Máximo de caractéres atingido! (255)"),
+    .length(2, "UF deve ter exatamente 2 caracteres")
+    .regex(/^[A-Z]{2}$/, "UF deve conter apenas letras maiúsculas"),
 });
 
-type TNewAddressFormData = zod.infer<typeof newAddressValidationSchema>;
+type TNewAddressFormData = z.infer<typeof addressSchema>;
 
 export function DeliveryAddress({
   open,
@@ -68,32 +55,23 @@ export function DeliveryAddress({
   const { createNewAddress } = useContext(CombinedContext);
 
   const newAddressForm = useForm<TNewAddressFormData>({
-    resolver: zodResolver(newAddressValidationSchema),
-    defaultValues: {
-      bairro: "",
-      cep: undefined,
-      cidade: "",
-      complemento: "",
-      numero: undefined,
-      rua: "",
-      uf: "",
-    },
+    resolver: zodResolver(addressSchema)
   });
 
-  const {
-    formState: { errors },
-  } = newAddressForm;
-  useEffect(() => {
-    if (Object.keys(errors).length) {
-      console.log("Erros de validação:", errors);
-    }
-  }, [errors]);
+  const handleErrors = (errors: FieldErrors<TNewAddressFormData>) => {
+    const errorMessages = Object.values(errors)
+      .map((error) => error.message)
+      .join("\n");
+  
+    alert("Erros no formulário:\n" + errorMessages);
+  };
+
   const { handleSubmit } = newAddressForm;
 
   const handleClose = () => onClose();
 
   function handleCreateNewAddress(data: TNewAddressFormData) {
-    createNewAddress(data)
+    createNewAddress(data);
     handleClose();
   }
 
@@ -132,7 +110,7 @@ export function DeliveryAddress({
         </button>
       </AddressSummary>
 
-      <AddressForm onSubmit={handleSubmit(handleCreateNewAddress)}>
+      <AddressForm onSubmit={handleSubmit(handleCreateNewAddress, handleErrors)}>
         <FormProvider {...newAddressForm}>
           <AddressInputs />
         </FormProvider>

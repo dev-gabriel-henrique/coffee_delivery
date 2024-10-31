@@ -6,8 +6,11 @@ import {
 } from "./DeliveryPaymentMethod";
 import { Bank, CreditCard, Money } from "@phosphor-icons/react";
 import { ButtonContainer } from "../../../../components/Variants/ButtonVariants";
+import { useContext } from "react";
+import { CombinedContext } from "../../../../contexts/CombinedContext";
 
 export function DeliveryPaymentMethod() {
+  const { setPaymentMethod } = useContext(CombinedContext)
   return (
     <DeliveryPaymentContainer>
       <PaymentSummary>
@@ -26,6 +29,7 @@ export function DeliveryPaymentMethod() {
         <ButtonContainer 
         type="button" 
         variant="checkbox"
+        onClick={() => setPaymentMethod("Cartão de Crédito")}
         >
           <CreditCard size={16} />
           Cartão de Crédito
@@ -34,6 +38,7 @@ export function DeliveryPaymentMethod() {
         <ButtonContainer 
         type="button" 
         variant="checkbox"
+        onClick={() => setPaymentMethod("Cartão de Débito")}
         >
           <Bank size={16} />
           Cartão de Débito
@@ -41,6 +46,7 @@ export function DeliveryPaymentMethod() {
 
         <ButtonContainer 
         type="button" 
+        onClick={() => setPaymentMethod("Dinheiro")}
         variant="checkbox"
         >
           <Money size={16} />

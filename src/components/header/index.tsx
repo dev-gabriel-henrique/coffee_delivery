@@ -8,12 +8,14 @@ import { useContext, useRef, useState } from "react";
 import { CombinedContext } from "../../contexts/CombinedContext";
 
 export function Header() {
-  const { activeAddress } = useContext(CombinedContext);
+  const { activeAddress, cart } = useContext(CombinedContext);
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   const handleOpen = () => setDialogOpen(true);
   const handleClose = () => setDialogOpen(false);
+
+  const coffeeQuantity = cart.reduce((total, item) => total + item.quantidade, 0)
 
   return (
     <HeaderContainer>
@@ -30,7 +32,7 @@ export function Header() {
           ref={buttonRef}
         >
           {activeAddress ? (
-            <p style={{textTransform: "capitalize"}}>{
+            <p style={{textTransform: "uppercase"}}>{
               `
               ${activeAddress.cidade} - 
               ${activeAddress.uf}
@@ -49,8 +51,15 @@ export function Header() {
           buttonRef={buttonRef}
         />
 
-        <NavLink id="cart" to="/cart" end title="Carrinho de compras">
+        <NavLink 
+        id="cart" 
+        to="/cart" 
+        end title="Carrinho de compras">
           <ShoppingCart weight="fill" size={22} />
+          {coffeeQuantity ? (
+          <span>{coffeeQuantity}</span>
+        ) : ("")
+        }
         </NavLink>
       </nav>
     </HeaderContainer>

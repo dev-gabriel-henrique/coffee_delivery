@@ -1,12 +1,13 @@
 import styled from "styled-components";
 
 export const SuccessContainer = styled.div`
-  display: grid;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 
   margin-top: 5rem;
-
+  
   & h1 {
     font-family: "Baloo 2", sans-serif;
     font-size: 2rem;
@@ -57,8 +58,6 @@ export const Informations = styled.div`
     justify-content: center;
     padding: .5rem .5rem;
     border-radius: 50%;
-    
-    
   }
 
   & #map {

@@ -20,6 +20,15 @@ export function AddressInputs() {
     setValue("cep", maskedValue);
   };
 
+  const applyRawNumber = (value: string): string => {
+    return (value = value.replace(/\D+/g, ""));
+  };
+
+  const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const rawValue = applyRawNumber(e.target.value);
+    setValue("numero", rawValue);
+  };
+
   return (
     <InputContainer>
       <NumberInput 
@@ -33,6 +42,7 @@ export function AddressInputs() {
       <TextInput 
       id="rua" 
       placeholder="Rua" 
+      maxLength={40}
       {...register("rua")} 
       />
 
@@ -41,12 +51,15 @@ export function AddressInputs() {
           id="numero"
           placeholder="Número"
           maxLength={5}
-          {...register("numero")}
+          {...register("numero", {
+            onChange: handleNumberChange
+          })}
         />
 
         <TextInput
           id="complemento"
           placeholder="Complemento"
+          maxLength={40}
           {...register("complemento")}
         />
       </div>
@@ -55,12 +68,14 @@ export function AddressInputs() {
         <TextInput 
         id="bairro" 
         placeholder="Bairro" 
+        maxLength={40}
         {...register("bairro")} 
         />
 
         <TextInput 
         id="cidade" 
         placeholder="Cidade" 
+        maxLength={40}
         {...register("cidade")} 
         />
 
