@@ -1,4 +1,4 @@
-# Soller
+# Coffee Delivery
 
 Esse projeto faz parte de um desafio teste para ampliação de conhecimentos da Rocketseat, nele pude ampliar grandemente meus conhecimentos a respeito de React, Context Api e etc... Esse é um site de delivery de cafés, que possui toda a funcionalidade de pedidos e adição de endereço de entrega, para me desafiar um pouco mais, coloquei alguns recursos a mais, o que me desafiou bastante!
 
